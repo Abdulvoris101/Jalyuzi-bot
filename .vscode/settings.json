@@ -1,0 +1,4 @@
+{
+    "nuxt.isNuxtApp": false,
+    "python.envFile": "${workspaceFolder}/logic/.env"
+}
