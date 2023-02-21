@@ -34,6 +34,9 @@ class UpdateUserState(StatesGroup):
     first_name = State()
     last_name = State()
 
+class VerificationState(StatesGroup):
+    confirm_code = State()
+
 class MessageState(StatesGroup):
     message = State()
 

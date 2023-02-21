@@ -17,8 +17,7 @@ import re
 async def send_welcome(message: types.Message, state=None):   
     language = get_user_language(message.from_user.id)
 
-    # TODO: waiting twillio if is_authenticated(message.from_user.id) and is_confirmed(message.from_user.id): 
-    if is_authenticated(message.from_user.id):
+    if is_authenticated(message.from_user.id) and is_confirmed(message.from_user.id):
         return await send_message_local(message.from_user.id, text=f"Assalomu aleykum <b>{message.from_user.first_name}</b> 😊\n\nNima buyurtma qilamiz ?", lang=language, reply_markup=start_keyboards(lang=language))
     
     elif not is_confirmed(message.from_user.id) and is_authenticated(message.from_user.id):
