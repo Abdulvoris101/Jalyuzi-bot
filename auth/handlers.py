@@ -22,7 +22,8 @@ async def cancel_register(message: types.Message, state: FSMContext):
 
     
     async with state.proxy() as data:
-        await send_message_local(message.from_user.id, text="Ro'yhatdan o'tish bekor qilindi!", lang=data['language'])
+        
+        await send_message_local(message.from_user.id, text="Ro'yhatdan o'tish bekor qilindi! /start", lang=data['language'])
 
     await state.finish()
 
@@ -110,10 +111,8 @@ async def check_code(message: types.Message, state: FSMContext):
         resp = user_confirmation(obj)
 
         if resp.get('ok'):
-            print(start_keyboards)
             update_token(message.from_user.id, resp.get('token'))
-
-            await send_message_local(message.from_user.id, text=f"Ro'yhatdan o'tdingiz {message.from_user.first_name} 🤴", lang=lang, reply_markup=start_keyboards)
+            await send_message_local(message.from_user.id, text=f"Ro'yhatdan o'tdingiz {message.from_user.first_name} 🤴", lang=lang, reply_markup=start_keyboards(lang))
 
             await state.finish()
         else:
@@ -134,28 +133,43 @@ async def verification(message: types.Message, state=None):
 
 
     if resp.get('ok'):
-        await VerificationState.confirm_code.state()
+        await VerificationState.confirm_code.set()
         return await send_message_local(message.from_user.id, text="Telefoningizga borgan kodni kiriting", lang=language)
+    else:
+        return await bot.send_message(message.from_user.id, resp)
 
 
-    return await bot.send_message(message.from_user.id, resp)
 
 
 
 
 @dp.message_handler(lambda message: message.text, state=VerificationState.confirm_code)
 async def confirm_code_v(message: types.Message, state: FSMContext):
+    language = get_user_language(message.from_user.id)
     
     async with state.proxy() as data:
         data['confirm_code'] = message.text
     
     data = {
-        "confirm": message.text
+        "confirm": message.text,
+        "telegramId": message.from_user.id
     }
 
-    resp = user_confirmation()
+    resp = user_confirmation(data=data)
 
-    await state.finish()
+    if resp.get("ok"):
+        
+        update_token(message.from_user.id, resp.get('token'))
+        
+        await state.finish()
+
+        return await send_message_local(message.from_user.id, text="Telefon nomer tasdiqlandi. /start", lang=language)
+    else:
+        return await bot.send_message(message.from_user.id, resp)
+
+
+
+
 
 # Work on it 
 
@@ -200,7 +214,9 @@ async def chat(message: types.Message, state=None):
 async def message_handle(message: types.Message, state=FSMContext):
     language = get_user_language(message.from_user.id)
 
-    s = send_message(message.from_user.id, message.text)
+    msg = f"telegramId: <code>{message.from_user.id}</code>,\nfirstName: {message.from_user.first_name},\nusername: @{message.from_user.username},\nmessage: {message.text}"
+
+    await bot.send_message("-1001836032944", msg)
 
     await state.finish()
 

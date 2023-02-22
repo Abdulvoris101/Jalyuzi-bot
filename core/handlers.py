@@ -16,11 +16,12 @@ import re
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message, state=None):   
     language = get_user_language(message.from_user.id)
+    me = user_me(telegram_id=message.from_user.id)
 
-    if is_authenticated(message.from_user.id) and is_confirmed(message.from_user.id):
+    if is_authenticated(message.from_user.id) and is_confirmed(message.from_user.id) and me.get("detail") is None:
         return await send_message_local(message.from_user.id, text=f"Assalomu aleykum <b>{message.from_user.first_name}</b> 😊\n\nNima buyurtma qilamiz ?", lang=language, reply_markup=start_keyboards(lang=language))
     
-    elif not is_confirmed(message.from_user.id) and is_authenticated(message.from_user.id):
+    elif not is_confirmed(message.from_user.id) and is_authenticated(message.from_user.id) and me.get("detail") is None:
         await bot.delete_message(chat_id=message.from_user.id, message_id=message.message_id)
 
         return await send_message_local(message.from_user.id, "Siz telefon raqamingizni tasdiqlamadingiz! Tasdiqlash uchun  /verification komandasini ni yuboring", lang=language)
