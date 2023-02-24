@@ -457,14 +457,14 @@ async def change_message(callback: types.CallbackQuery, state=None):
             open_site = translate_text("Saytda ko'rish", language)
             product_slug = product.get("slug")
 
-            url = f'<a href="http://127.0.0.1:3000/product/{product.get("slug")}"><b>{open_site} 🌐</b></a>' 
+            url = f'<a href="{baseUrl}/product/{product.get("slug")}"><b>{open_site} 🌐</b></a>' 
             category_name = get_category(cat_id).get("name")
             price = product.get("price_sum")
 
             text = f"<b>{translate_text('Tovar nomi', language)}</b>: {name},\n<b>{translate_text('Lenta kengligi', language)}</b>: {weight},\n<b>{translate_text('Kategoriya', language)}</b>: {category_name},\n<b>{translate_text('Rang', language)}</b>: {color}<b>\n{translate_text('narxi', language)}</b>: {price} сум\n\n{url}"      
 
 
-            await bot.send_photo(chat_id=callback.from_user.id, photo=photo_product, caption=text, reply_markup=add_cart_keyboards(lang=language, product_slug=product_slug))
+            await bot.send_photo(chat_id=callback.from_user.id, photo=str(photo_product), caption=text, reply_markup=add_cart_keyboards(lang=language, product_slug=product_slug))
 
     # Add to cart handler
 

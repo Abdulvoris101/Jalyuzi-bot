@@ -2,7 +2,7 @@ import requests
 import json
 from db.manager import get_token
 
-baseUrl = 'http://localhost:8000'
+baseUrl = 'http://95.46.96.71'
 
 headers = {
     'Content-Type': 'application/json',
