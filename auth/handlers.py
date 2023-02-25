@@ -43,7 +43,7 @@ async def receiver_language(message: types.Message, state: FSMContext):
 
 @dp.message_handler(lambda message: message.text != 'ru' or message.text != 'uz', state=ClientStateGroup.language)
 async def incorrect_language(message: types.Message, state=FSMContext):
-    await message.answer("Iltimos to'gri tilni tanlang. Пожалуйста введите коректный язык")
+    await message.answer("Iltimos to'g'ri tilni tanlang. Пожалуйста введите коректный язык")
     
 
 @dp.message_handler(lambda message: message.contact.phone_number, content_types=['contact'], state=ClientStateGroup.phone_number)
@@ -80,10 +80,9 @@ async def set_password(message: types.Message, state: FSMContext):
         resp = user_register(data=data)
 
         if resp.get('ok'):
-            await send_message_local(message.from_user.id, text="Telefoningizga borgan kodni kiriting", lang=lang, reply_markup=cancel_keyboards)
-            create_token(telegram_id=message.from_user.id, lang=lang)
-
-            await ClientStateGroup.next()
+            await send_message_local(message.from_user.id, text=f"Ro'yhatdan o'tdingiz {message.from_user.first_name} 🤴", lang=lang, reply_markup=start_keyboards(lang))
+            create_token(telegram_id=message.from_user.id, lang=lang, token=resp.get("token"))
+            await state.finish()
         else:
             if resp.get('username'):
                 return await bot.send_message(message.from_user.id, "Siz ro'yhatdan o'tgansiz")
@@ -94,32 +93,31 @@ async def set_password(message: types.Message, state: FSMContext):
 
 
 
-@dp.message_handler(lambda message: message.text, state=ClientStateGroup.confirm_code)
-async def check_code(message: types.Message, state: FSMContext): 
+# @dp.message_handler(lambda message: message.text, state=ClientStateGroup.confirm_code)
+# async def check_code(message: types.Message, state: FSMContext): 
 
-    async with state.proxy() as data:
-        data['confirm_code'] = message.text
-        lang = data['language']
-        phone_number = str(data['phone_number']).replace('+998', '')
+#     async with state.proxy() as data:
+#         data['confirm_code'] = message.text
+#         lang = data['language']
+#         phone_number = str(data['phone_number']).replace('+998', '')
 
-        obj = {
-            'phone_number': phone_number,
-            'password': data['password'],
-            'confirm': message.text
-        }
+#         obj = {
+#             'phone_number': phone_number,
+#             'password': data['password'],
+#             'confirm': message.text
+#         }
 
-        resp = user_confirmation(obj)
+#         resp = user_confirmation(obj)
 
-        if resp.get('ok'):
-            update_token(message.from_user.id, resp.get('token'))
-            await send_message_local(message.from_user.id, text=f"Ro'yhatdan o'tdingiz {message.from_user.first_name} 🤴", lang=lang, reply_markup=start_keyboards(lang))
+#         if resp.get('ok'):
+#             update_token(message.from_user.id, resp.get('token'))
 
-            await state.finish()
-        else:
-            if resp.get('Error'):
-                await send_message_local(message.from_user.id, "Noto'gri parol", lang=lang, reply_markup=cancel_keyboards)
-            else:
-                await bot.send_message(message.from_user.id, resp, reply_markup=cancel_keyboards)
+#             await state.finish()
+#         else:
+#             if resp.get('Error'):
+#                 await send_message_local(message.from_user.id, "Noto'gri parol", lang=lang, reply_markup=cancel_keyboards)
+#             else:
+#                 await bot.send_message(message.from_user.id, resp, reply_markup=cancel_keyboards)
 
 
 @dp.message_handler(commands=['verification'])
@@ -214,7 +212,7 @@ async def chat(message: types.Message, state=None):
 async def message_handle(message: types.Message, state=FSMContext):
     language = get_user_language(message.from_user.id)
 
-    msg = f"telegramId: <code>{message.from_user.id}</code>,\nfirstName: {message.from_user.first_name},\nusername: @{message.from_user.username},\nmessage: {message.text}"
+    msg = f"telegramId: <code>{message.from_user.id}</code>,\nИмя: {message.from_user.first_name},\nusername: @{message.from_user.username},\nсообшения: {message.text}"
 
     await bot.send_message("-1001836032944", msg)
 

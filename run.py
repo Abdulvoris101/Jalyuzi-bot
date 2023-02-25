@@ -19,7 +19,6 @@ class ClientStateGroup(StatesGroup):
     language = State()
     phone_number = State()
     password = State()
-    confirm_code = State()
 
 class ProductEditState(StatesGroup):
     product_id = State()
