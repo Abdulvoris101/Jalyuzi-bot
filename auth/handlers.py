@@ -54,7 +54,7 @@ async def handle_contact(message: types.Message, state: FSMContext):
         data['phone_number'] = message.contact.phone_number
         lang = data['language']
 
-        await send_message_local(message.from_user.id, text="Ro'yxatdan o'tish uchun yangi parol kiriting", lang=lang)
+        await send_message_local(message.from_user.id, text="Ro'yxatdan o'tish uchun yangi parol kiriting  Va bu parol http://jalyuzi.com uchun xam ammal qiladi", lang=lang)
 
     await ClientStateGroup.next()
 
