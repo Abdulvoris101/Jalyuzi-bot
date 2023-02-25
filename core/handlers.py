@@ -18,7 +18,8 @@ async def send_welcome(message: types.Message, state=None):
     language = get_user_language(message.from_user.id)
     me = user_me(telegram_id=message.from_user.id)
 
-    if is_authenticated(message.from_user.id) and me.get("detail") is None:
+
+    if is_authenticated(message.from_user.id) == True and me.get("detail") is None:
         return await send_message_local(message.from_user.id, text=f"Assalomu aleykum <b>{message.from_user.first_name}</b> 😊\n\nNima buyurtma qilamiz ?", lang=language, reply_markup=start_keyboards(lang=language))
     
     # elif is_authenticated(message.from_user.id) and me.get("detail") is None:
@@ -67,7 +68,7 @@ async def basket(message: types.Message):
         overall_price = overall_price + all_price
         
         
-        url = f"http://127.0.0.1:3000/product/{slug}"
+        url = f"{baseUrl}/product/{slug}"
         
 
         text += f"<b>{index + 1}</b>. <b>{name}</b> - {blackout} <a href='{url}'>️𝖚𝖗𝖑</a> \nОбш кв: {square}\n\n"
@@ -185,8 +186,6 @@ async def house_handler(message: types.Message, state=FSMContext):
 async def to_shop(message: types.Message):
     language = get_user_language(message.from_user.id)
 
-
-    await bot.delete_message(message.from_user.id, message_id=message.message_id)
 
     await send_message_local(message.from_user.id, "Kategoriyalar", lang=language, reply_markup=category_keyboards(lang=language))
 
@@ -358,7 +357,7 @@ async def change_message(callback: types.CallbackQuery, state=None):
             data = create_order(telegram_id=callback.from_user.id, data=json.dumps(order_products))
             drop_all_cart(callback.from_user.id)
             if len_of_product >= 1:
-                await bot.delete_message(callback.from_user.id, callback.message.message_id)
+
                 await bot.send_message(callback.from_user.id, translate_text(f"Sizning buyurtmangiz qabul qilindi.\nTez orada administratorlar siz bilan bo'glanishadi ", lang))
 
         else:

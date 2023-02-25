@@ -74,13 +74,14 @@ async def set_password(message: types.Message, state: FSMContext):
             "last_name": message.from_user.last_name if message.from_user.last_name is not None else 'Not',
             "telegram_id": message.from_user.id,
             "password": data['password'],
-            "username": phone_number
+            "username": phone_number,
+            "isTelegramBot": True
         }
         
         resp = user_register(data=data)
 
         if resp.get('ok'):
-            await send_message_local(message.from_user.id, text=f"Ro'yhatdan o'tdingiz {message.from_user.first_name} 🤴", lang=lang, reply_markup=start_keyboards(lang))
+            await send_message_local(message.from_user.id, text=f"Ro'yhatdan muvaffiqiyatli o'tdingiz {message.from_user.first_name} 🤴", lang=lang, reply_markup=start_keyboards(lang))
             create_token(telegram_id=message.from_user.id, lang=lang, token=resp.get("token"))
             await state.finish()
         else:
@@ -199,7 +200,7 @@ async def set_lang(message: types.Message):
     
 
 # Chat
-@dp.message_handler(Text(equals=["💬 Biz bilan Aloqa", "💬 Свяжитесь с нами"]))
+@dp.message_handler(Text(equals=["💬 Biz bilan Aloqa", "💬 Связаться с нами"]))
 async def chat(message: types.Message, state=None):
     language = get_user_language(message.from_user.id)
     await bot.delete_message(message.from_user.id, message.message_id)
@@ -214,7 +215,7 @@ async def message_handle(message: types.Message, state=FSMContext):
 
     msg = f"telegramId: <code>{message.from_user.id}</code>,\nИмя: {message.from_user.first_name},\nusername: @{message.from_user.username},\nсообшения: {message.text}"
 
-    await bot.send_message("-1001836032944", msg)
+    await bot.send_message("-1001875684284", msg)
 
     await state.finish()
 
