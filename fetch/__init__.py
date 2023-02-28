@@ -2,7 +2,7 @@ import requests
 import json
 from db.manager import get_token
 
-baseUrl = 'http://90.156.226.196'
+baseUrl = 'https://jalyuzi.com'
 
 headers = {
     'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ def send_verif_code(telegram_id):
 
 def user_register(data):
     r = requests.post(baseUrl + '/api/users/', headers=headers, data=json.dumps(data))
-
+    print(r.text)
     return r.json()
 
 
