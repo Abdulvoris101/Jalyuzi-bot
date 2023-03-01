@@ -90,7 +90,7 @@ async def address(message: types.Message, state=None):
         language = get_user_language(message.from_user.id)
         address = get_address(message.from_user.id)
 
-        if len(address) <= 1:
+        if len(address) < 1:
             await AddressStateGroup.city.set()
             await send_message_local(message.from_user.id, "Shaharni kiriting:", language)
         else:
