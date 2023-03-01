@@ -61,7 +61,6 @@ def create_address(telegram_id, data):
 
 def get_address(telegram_id):
     token = get_token(telegram_id)
-
     headers['Authorization'] = f"Token {token[0]}"
 
     r = requests.get(f"{baseUrl}/api/orders/address/", headers=headers)
