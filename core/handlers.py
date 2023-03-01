@@ -343,23 +343,23 @@ async def change_message(callback: types.CallbackQuery, state=None):
                 overall_price = overall_price + all_price
 
 
-                # order_products.append({
-                #     "product": product_id,
-                #     "product_price": price,
-                #     "overall_price": int(overall_price),
-                #     "size": square,
-                #     "type_id": "None",
-                #     "status": "pending",
-                #     "address": address[0].get("id"),
-                #     "amount": 1
-                # })
+                order_products.append({
+                    "product": product_id,
+                    "product_price": price,
+                    "overall_price": int(overall_price),
+                    "size": square,
+                    "type_id": "None",
+                    "status": "pending",
+                    "address": address[0].get("id"),
+                    "amount": 1
+                })
 
 
-            # data = create_order(telegram_id=callback.from_user.id, data=json.dumps(order_products))
-            # drop_all_cart(callback.from_user.id)
-            # if len_of_product >= 1:
+            data = create_order(telegram_id=callback.from_user.id, data=json.dumps(order_products))
+            drop_all_cart(callback.from_user.id)
+            if len_of_product >= 1:
 
-            #     await bot.send_message(callback.from_user.id, translate_text(f"Sizning buyurtmangiz qabul qilindi.\nTez orada administratorlar siz bilan bo'glanishadi ", lang))
+                await bot.send_message(callback.from_user.id, translate_text(f"Sizning buyurtmangiz qabul qilindi.\nTez orada administratorlar siz bilan bo'glanishadi ", lang))
 
         else:
             await bot.send_message(callback.from_user.id, translate_text(f"Siz address kiritmagan ekansiz!", lang)  + "\n/address")
