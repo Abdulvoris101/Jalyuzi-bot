@@ -15,7 +15,12 @@ headers = {
 
 def user_me(telegram_id):
     r = requests.get(f"{baseUrl}/api/users/?telegram_id={telegram_id}")
-    return r.json()
+    try:
+        data = r.json()
+    except:
+        data = {"detail": "Error"}
+
+    return data
 
 def update_user(telegram_id, data):
     token = get_token(telegram_id)
@@ -89,7 +94,7 @@ def send_verif_code(telegram_id):
 
 def user_register(data):
     r = requests.post(baseUrl + '/api/users/', headers=headers, data=json.dumps(data))
-
+    print(r.text)
     return r.json()
 
 

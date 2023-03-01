@@ -442,8 +442,8 @@ async def change_message(callback: types.CallbackQuery, state=None):
             language = get_user_language(callback.from_user.id)
 
             product = get_product_from_list(category_id=cat_id, page=page_current, index=let)
-            # photo_product = baseUrl + product.get("image")
-            photo_product = "http://www.jalyuzi.uz/image/cache/catalog/photos/item/tkanVer/diamond-03212-228x228.jpg"
+            photo_product = baseUrl + product.get("image")
+            # photo_product = "http://www.jalyuzi.uz/image/cache/catalog/photos/item/tkanVer/diamond-03212-228x228.jpg"
             name = product.get("name")
             weight = product.get("weight")
             color_id = product.get("color")
