@@ -128,7 +128,7 @@ def products_text(category, current_page, user_id):
             price_sum = product.get('price_sum')
             slug = product.get('slug')
 
-            text += f'<b>{index + 1}</b>. {name}-{weight} <b>{price_sum}</b> сум.\nhttp://127.0.0.1:3000/product/{slug} \n\n'
+            text += f'<b>{index + 1}</b>. {name}-{weight} <b>{price_sum}</b> сум.\nhttps://jalyuzi.com/product/{slug} \n\n'
         
         return text
     
@@ -321,7 +321,7 @@ async def change_message(callback: types.CallbackQuery, state=None):
 
         if detail is None and len(address) >= 1:
             len_of_product = len(products)
-            
+
             for index, product in enumerate(products):
                 square = product[1]
                 product = json.loads(product[0])
