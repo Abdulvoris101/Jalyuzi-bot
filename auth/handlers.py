@@ -199,6 +199,18 @@ async def set_lang(message: types.Message):
     await settings_view(message)
     
 
+# Social Media
+
+# Ijtimoiy tarmoqlar
+
+@dp.message_handler(Text(equals=["⚡️ Ijtimoiy tarmoqlar", "⚡️ Социальные сети"]))
+async def chat(message: types.Message):
+    language = get_user_language(message.from_user.id)
+
+    await bot.delete_message(message.from_user.id, message.message_id)
+
+    await bot.send_message( message.from_user.id, "Instagram - https://www.instagram.com/Jalyuzi.uz/,\nTelegram - https://t.me/jalyuzi,\nFacebook - https://www.facebook.com/Jalyuzi.uz/,\nTwitter - https://twitter.com/Jalyuzi")
+
 # Chat
 @dp.message_handler(Text(equals=["💬 Biz bilan Aloqa", "💬 Связаться с нами"]))
 async def chat(message: types.Message, state=None):

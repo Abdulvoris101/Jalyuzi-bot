@@ -2,7 +2,7 @@ import requests
 import json
 from db.manager import get_token
 
-baseUrl = 'http://90.156.226.196'
+baseUrl = 'https://jalyuzi.com'
 
 headers = {
     'Content-Type': 'application/json',
@@ -56,7 +56,6 @@ def create_address(telegram_id, data):
 
 def get_address(telegram_id):
     token = get_token(telegram_id)
-
     headers['Authorization'] = f"Token {token[0]}"
 
     r = requests.get(f"{baseUrl}/api/orders/address/", headers=headers)
