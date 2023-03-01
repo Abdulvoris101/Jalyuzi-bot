@@ -90,7 +90,7 @@ async def address(message: types.Message, state=None):
         language = get_user_language(message.from_user.id)
         address = get_address(message.from_user.id)
 
-        if len(address) < 1:
+        if address == False:
             await AddressStateGroup.city.set()
             await send_message_local(message.from_user.id, "Shaharni kiriting:", language)
         else:
@@ -317,9 +317,9 @@ async def change_message(callback: types.CallbackQuery, state=None):
         
         address = get_address(callback.from_user.id)
         lang = get_user_language(callback.from_user.id)
-        detail  = address.get("detail")
+        
 
-        if detail is None and len(address) >= 1:
+        if address:
             len_of_product = len(products)
 
             for index, product in enumerate(products):

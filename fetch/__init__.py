@@ -64,10 +64,11 @@ def get_address(telegram_id):
     headers['Authorization'] = f"Token {token[0]}"
 
     r = requests.get(f"{baseUrl}/api/orders/address/", headers=headers)
-
-    if len(r.json()) >= 1:
-        return r.json()
     
+    data = r.json()
+
+    if len(data) >= 1:
+        return data
     return False
 
 def create_order(telegram_id, data):
