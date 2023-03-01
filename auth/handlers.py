@@ -212,12 +212,12 @@ async def chat(message: types.Message, state=None):
 @dp.message_handler(state=MessageState.message)
 async def message_handle(message: types.Message, state=FSMContext):
     language = get_user_language(message.from_user.id)
-
-    msg = f"telegramId: <code>{message.from_user.id}</code>,\nИмя: {message.from_user.first_name},\nusername: @{message.from_user.username},\nсообшения: {message.text}"
+    me = user_me(telegram_id=message.from_user.id)
+    msg = f"telegramId: <code>{message.from_user.id}</code>,\nИмя: {message.from_user.first_name},\nusername: @{message.from_user.username},тел.номер:{me.get('phone_number')},\nсообшения: {message.text}"
 
     await bot.send_message("-1001875684284", msg)
 
     await state.finish()
 
-    await send_message_local(message.from_user.id, "Xabaringiz muvaffiqiyatli yuborildi. Tez orada administratorlar sizga javob berishadi 😊", language)
+    await send_message_local(message.from_user.id, "Xabaringiz muvaffiqiyatli yuborildi. Tez orada administratorlar sizga javob berishadi 😊", language, reply_markup=start_keyboards(lang=language))
     
