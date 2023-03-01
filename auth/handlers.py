@@ -209,9 +209,9 @@ async def chat(message: types.Message):
 
     await bot.delete_message(message.from_user.id, message.message_id)
 
-    await bot.send_message( message.from_user.id, "Instagram - https://www.instagram.com/Jalyuzi.uz/,\nTelegram - https://t.me/jalyuzi,\nFacebook - https://www.facebook.com/Jalyuzi.uz/,\nTwitter - https://twitter.com/Jalyuzi")
+    await bot.send_message( message.from_user.id, "Instagram - https://www.instagram.com/Jalyuzi.uz/\nTelegram - https://t.me/jalyuzi\nFacebook - https://www.facebook.com/Jalyuzi.uz/\nTwitter - https://twitter.com/Jalyuzi")
 
-# Chat
+# C0hat
 @dp.message_handler(Text(equals=["💬 Biz bilan Aloqa", "💬 Связаться с нами"]))
 async def chat(message: types.Message, state=None):
     language = get_user_language(message.from_user.id)
@@ -225,7 +225,7 @@ async def chat(message: types.Message, state=None):
 async def message_handle(message: types.Message, state=FSMContext):
     language = get_user_language(message.from_user.id)
     me = user_me(telegram_id=message.from_user.id)
-    msg = f"telegramId: <code>{message.from_user.id}</code>,\nИмя: {message.from_user.first_name},\nusername: @{message.from_user.username},тел.номер:{me.get('phone_number')},\nсообшения: {message.text}"
+    msg = f"telegramId: <code>{message.from_user.id}</code>\nИмя: {message.from_user.first_name}\nusername: @{message.from_user.username}\nтел.номер:{me.get('phone_number')}\nсообшения: {message.text}"
 
     await bot.send_message("-1001875684284", msg)
 
