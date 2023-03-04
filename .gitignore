@@ -5,3 +5,4 @@ frontend
 venv/
 venv
 env/
+bot.db/
