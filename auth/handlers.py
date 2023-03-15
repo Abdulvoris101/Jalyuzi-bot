@@ -212,7 +212,7 @@ async def chat(message: types.Message):
     await bot.send_message( message.from_user.id, "<a href='https://www.instagram.com/Jalyuzi.uz/'>Instagram</a>\n<a href='https://t.me/jalyuzi'>Telegram</a>\n<a href='https://www.facebook.com/Jalyuzi.uz/'>Facebook</a>\n<a href='https://twitter.com/Jalyuzi'>Twitter</a>", reply_markup=start_keyboards(lang=language))
 
 # C0hat
-@dp.message_handler(Text(equals=["💬 Biz bilan Aloqa", "💬 Связаться с нами"]))
+@dp.message_handler(Text(equals=["💬 Murojat", "💬 Обращаться"]))
 async def chat(message: types.Message, state=None):
     language = get_user_language(message.from_user.id)
     await bot.delete_message(message.from_user.id, message.message_id)
