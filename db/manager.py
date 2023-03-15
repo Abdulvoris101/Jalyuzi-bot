@@ -1,7 +1,7 @@
 import sqlite3
 import json
 
-con = sqlite3.connect("bot.db")
+con = sqlite3.connect(".bot.db")
 
 cur = con.cursor()
 
