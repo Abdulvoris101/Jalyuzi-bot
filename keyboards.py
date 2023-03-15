@@ -91,17 +91,32 @@ def start_keyboards(lang):
         ],
         [
 
-            types.KeyboardButton(f'💬 {translate_text(text="Biz bilan Aloqa", lang=lang)}'),
+            types.KeyboardButton(f'💬 {translate_text(text="Murojat", lang=lang)}'),
             types.KeyboardButton(f'⚙️ {translate_text(text="Sozlamalar", lang=lang)}'),
         ],
         [
-                    types.KeyboardButton(f'⚡️ {translate_text(text="Ijtimoiy tarmoqlar", lang=lang)}'),
-
+            types.KeyboardButton(f'⚡️ {translate_text(text="Ijtimoiy tarmoqlar", lang=lang)}'),
+            types.KeyboardButton(f'🚀 {translate_text(text="Tezkor Buyurtma", lang=lang)}'),
         ]
 
     ],resize_keyboard=True, one_time_keyboard=True)
 
     return start_keyboards
+
+
+def get_location_keyboards(lang):
+    text = "📌 Lokatsiyani yuborish"
+    location_keyboards = types.ReplyKeyboardMarkup([
+        [
+            types.KeyboardButton(text=translate_text(text, lang), request_location=True),
+        ],
+        [
+            types.KeyboardButton(text=translate_text("⬅️ Orqaga", lang)),
+        ]
+    ], resize_keyboard=True, one_time_keyboard=True)
+
+    return location_keyboards
+
 
 
 def contact_keyboards(lang):

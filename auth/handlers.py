@@ -225,7 +225,7 @@ async def chat(message: types.Message, state=None):
 async def message_handle(message: types.Message, state=FSMContext):
     language = get_user_language(message.from_user.id)
     me = user_me(telegram_id=message.from_user.id)
-    msg = f"telegramId: <code>{message.from_user.id}</code>\nИмя: {message.from_user.first_name}\nusername: @{message.from_user.username}\nтел.номер:{me.get('phone_number')}\nсообшения: {message.text}"
+    msg = f"telegramId: <code>{message.from_user.id}</code>\nИмя: {message.from_user.first_name}\nUsername: @{message.from_user.username}\nТип: Сообщения\nТел.номер:{me.get('phone_number')}\nСообшения: {message.text}"
 
     await bot.send_message("-1001875684284", msg)
 

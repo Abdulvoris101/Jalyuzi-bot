@@ -1,5 +1,5 @@
 from run import dp, bot, types, State, UpdateUserState, ClientStateGroup, ProductEditState, AddressStateGroup
-from keyboards import start_keyboards, language_keyboards, category_keyboards, products_keyboard, add_cart_keyboards, basket_keyboard
+from keyboards import start_keyboards, language_keyboards, category_keyboards, products_keyboard, add_cart_keyboards, get_location_keyboards, basket_keyboard
 from db.manager import is_authenticated, get_user_language, add_to_cart, get_cart_products, update_cart, get_cart_product, drop_all_cart, set_language
 from fetch import is_confirmed, get_categories, get_category_products, get_category, get_product_from_list, baseUrl, get_color, get_product, user_me, get_address, create_order, create_address, update_user
 from aiogram.dispatcher.filters import Text
@@ -182,6 +182,8 @@ async def house_handler(message: types.Message, state=FSMContext):
 
 # Message handlers - 
 
+
+
 @dp.message_handler(Text(equals=["🛍 Sotib olish", "🛍 Покупка"], ignore_case=True))
 async def to_shop(message: types.Message):
     language = get_user_language(message.from_user.id)
@@ -190,10 +192,30 @@ async def to_shop(message: types.Message):
     await send_message_local(message.from_user.id, "Kategoriyalar", lang=language, reply_markup=category_keyboards(lang=language))
 
 
+@dp.message_handler(content_types=['location'])
+async def get_location(message: types.Location):
+    me = user_me(telegram_id=message.from_user.id)
+    msg = f"telegramId: <code>{message.from_user.id}</code>\nИмя: {message.from_user.first_name}\nUsername: @{message.from_user.username}\nТип: Быстрый заказ\nТел.номер:{me.get('phone_number')}\nЛокация: {message.location.latitude}, {message.location.longitude}"
+
+    await bot.send_message("-1001875684284", msg)
+
+
+    await bot.send_message(message.from_user.id, "Buyurtma qabul qilindi tez orada siz bilan bog'lanamiz")
+
+
+@dp.message_handler(Text(equals=["🚀 Tezkor Buyurtma", "🚀 Быстрый заказ"], ignore_case=True))
+async def to_shop(message: types.Message):
+    language = get_user_language(message.from_user.id)
+
+    await send_message_local(message.from_user.id, "Lokatsiyani yuboring", lang=language, reply_markup=get_location_keyboards(lang=language))
+
+    
+
 
 @dp.message_handler(Text(equals=["⬅️ Назад", "⬅️ Orqaga"], ignore_case=True))
 async def to_start(message: types.Message):
     await send_welcome(message)
+
 
 
 
