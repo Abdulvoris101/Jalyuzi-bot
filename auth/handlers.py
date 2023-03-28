@@ -53,11 +53,17 @@ async def handle_contact(message: types.Message, state: FSMContext):
 
         data['phone_number'] = message.contact.phone_number
         lang = data['language']
-
-        if str(data['phone_number'])[:4] != '+998':
-            return await send_message_local(message.from_user.id, text=f"Siz faqatgina O'zbekiston nomer orqali sistemaga kira olasiz", lang=lang)
         
-        await send_message_local(message.from_user.id, text="Ro'yxatdan o'tish uchun yangi parol kiriting  Va bu parol jalyuzi.com uchun xam ammal qiladi", lang=lang)
+        if message.contact.phone_number[0] == '+':
+            if str(data['phone_number'])[:4] != '+998':
+                return await send_message_local(message.from_user.id, text=f"Siz faqatgina O'zbekiston nomer orqali sistemaga kira olasiz", lang=lang)
+            
+            await send_message_local(message.from_user.id, text="Ro'yxatdan o'tish uchun yangi parol kiriting  Va bu parol jalyuzi.com uchun xam ammal qiladi", lang=lang)
+        else:
+            if str(data['phone_number'])[:3] != '998':
+                return await send_message_local(message.from_user.id, text=f"Siz faqatgina O'zbekiston nomer orqali sistemaga kira olasiz", lang=lang)
+            
+            await send_message_local(message.from_user.id, text="Ro'yxatdan o'tish uchun yangi parol kiriting  Va bu parol jalyuzi.com uchun xam ammal qiladi", lang=lang)
 
     await ClientStateGroup.next()
 
@@ -69,7 +75,11 @@ async def set_password(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['password'] = message.text
         lang = data['language']
-        phone_number = str(data['phone_number']).replace('+998', '')
+        
+        if str(data['phone_number'])[0] == '+':
+            phone_number = str(data['phone_number']).replace('+998', '')
+        else:
+            phone_number = str(data['phone_number']).replace('998', '')
         
         
         data = {
