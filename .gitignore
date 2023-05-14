@@ -1,9 +1,7 @@
-.bot.db
 frontend/
 frontend
 /frontend
 venv/
 venv
 env/
-bot.db/
 __pycache_/
